@@ -29,7 +29,14 @@ function CreateVacancy() {
       await DataService.vacancy.create({
         name: inputValues.name,
         shortDescription: inputValues.shortDescription,
-        detailedDescription: draftToHtml(convertToRaw(ref?.current?.state.editorState.getCurrentContent())),
+        detailedDescription: {
+          html: draftToHtml(
+            convertToRaw(ref?.current?.state.editorState.getCurrentContent())
+          ),
+          raw: convertToRaw(
+            ref?.current?.state.editorState.getCurrentContent()
+          ),
+        },
         salaryRange: {
           min: inputValues.min ? +inputValues.min : null,
           max: inputValues.max ? +inputValues.max : null,
@@ -38,8 +45,8 @@ function CreateVacancy() {
         experience: +inputValues.experience,
       });
 
-      setDefaultValues(initialInputValues);
-      window.location.href = "/myVacancies";
+      // setDefaultValues(initialInputValues);
+      // window.location.href = "/myVacancies";
     } catch (e) {
       alert(e?.response?.data?.message);
     }

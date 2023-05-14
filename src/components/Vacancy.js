@@ -86,7 +86,7 @@ function Vacancy() {
               {vacancy.shortDescription}
             </div>
             <div className={styles.detailed_description}>
-              {vacancy?.detailedDescription && parse(vacancy?.detailedDescription)}
+              {vacancy?.detailedDescription.html && parse(vacancy?.detailedDescription.html)}
             </div>
           </div>
           <div className={styles.vacancy_info}>
