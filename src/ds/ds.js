@@ -80,11 +80,20 @@ export class Vacancy {
     this.prefix = "/vacancy";
   }
 
+  async update(id, payload) {
+    try {
+      return authorizedAxios.put(`${this.prefix}/${id}`, payload);
+    } catch (e) {
+      console.log("Failed to update vacancy", e);
+      throw e;
+    }
+  }
+
   async create(payload) {
     try {
       return authorizedAxios.post(`${this.prefix}`, payload);
     } catch (e) {
-      console.log("Failed to get company by id", e);
+      console.log("Failed to create vanancy", e);
       throw e;
     }
   }

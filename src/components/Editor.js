@@ -13,7 +13,7 @@ import draftToHtml from 'draftjs-to-html';
 class RichEditorExample extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
+    this.state = { editorState: EditorState.createWithContent(this.props.initialState) || EditorState.createEmpty() };
 
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({ editorState });
@@ -62,7 +62,6 @@ class RichEditorExample extends React.Component {
     const { editorState } = this.state;
     // const convertedState = convertFromRaw(JSON.parse(editorState))
 
-    console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())))
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
     let className = "RichEditor-editor";
