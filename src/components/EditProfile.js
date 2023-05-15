@@ -8,6 +8,7 @@ import { useInput } from "../customHooks/useInput";
 import { uploadImages } from "../utils";
 import filters from "../filters.json";
 import { EnglishLevel } from "../common/enums";
+import { toast } from "react-toastify";
 
 const initialInputValues = {
   name: "",
@@ -42,11 +43,14 @@ function EditProfile() {
 
       const { data: newToken } = await DataService.user.update(formData);
       localStorage.setItem("token", newToken);
+      toast.success("Дані оновлено!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
 
-      // setDefaultValues(initialInputValues);
-      //   window.location.href = "/myVacancies";
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   }
 

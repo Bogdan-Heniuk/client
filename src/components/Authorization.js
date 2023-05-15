@@ -2,6 +2,7 @@ import styles from "../styles/auth.module.css";
 import { Link } from "react-router-dom";
 import DataService from "../ds";
 import { useInput } from "../customHooks/useInput.js";
+import { toast } from "react-toastify";
 
 const initialInputValues = {
   email: "",
@@ -9,7 +10,7 @@ const initialInputValues = {
 };
 
 function Authorization() {
-  const {inputValues, onInputChange} = useInput(initialInputValues);
+  const { inputValues, onInputChange } = useInput(initialInputValues);
 
   async function login() {
     try {
@@ -21,7 +22,9 @@ function Authorization() {
       localStorage.setItem("token", data);
       window.location.href = "/";
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error(e?.response?.data?.message || "Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   }
 

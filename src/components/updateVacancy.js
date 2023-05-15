@@ -9,6 +9,7 @@ import draftToHtml from "draftjs-to-html";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { ContentState } from "draft-js";
+import { toast } from "react-toastify";
 
 const initialInputValues = {
   name: "",
@@ -47,10 +48,17 @@ function UpdateVacancy() {
         experience: +inputValues.experience,
       });
 
-      //   setDefaultValues(initialInputValues);
-      //   window.location.href = "/myVacancies";
+      toast.success("Дані оновлено!", {
+        position: toast.POSITION.TOP_CENTER
+      });
+
+      setTimeout(() => {
+        window.location.href = '/myVacancies'
+      }, 1000)
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   }
 
@@ -75,15 +83,15 @@ function UpdateVacancy() {
 
       setDescription(state);
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   }
 
   useEffect(() => {
     fetchVacancyInfo();
   }, []);
-
-  console.log(description);
 
   return (
     <div className={styles.container}>

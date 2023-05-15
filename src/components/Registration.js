@@ -5,6 +5,7 @@ import UploadFile from "./UploadFile";
 import { useInput } from "../customHooks/useInput";
 import { useState } from "react";
 import { createFormDataFromObject } from "../utils";
+import { toast } from "react-toastify";
 
 const initialInputValues = {
   email: "",
@@ -35,7 +36,9 @@ function Registration() {
         window.location.href = "/";
       }
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error(e?.response?.data?.message || "Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   }
 

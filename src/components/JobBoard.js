@@ -3,6 +3,7 @@ import filters from "../filters.json";
 import DataService from "../ds";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function JobBoard() {
   const [vacancies, setVacancies] = useState([]);
@@ -27,7 +28,9 @@ function JobBoard() {
       const { data } = await DataService.vacancy.getByFitler(objectFilter);
       setVacancies(data);
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   }
 

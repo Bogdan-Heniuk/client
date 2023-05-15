@@ -5,6 +5,7 @@ import DataService from "../ds";
 import UploadFile from "./UploadFile";
 import { createFormDataFromObject, getUser } from "../utils";
 import { useInput } from "../customHooks/useInput";
+import { toast } from "react-toastify";
 
 const initialInputValues = {
   name: "",
@@ -27,10 +28,14 @@ function CompanyInfo() {
 
       await DataService.company.update(formData);
 
-      setDefaultValues(initialInputValues);
-      window.location.href = "/myVacancies";
+      toast.success("Дані оновлено!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
 
@@ -38,9 +43,11 @@ function CompanyInfo() {
     try {
       const { data } = await DataService.company.get();
       setDefaultValues(data);
-      setAvatar(data.avatar)
+      setAvatar(data.avatar);
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
 

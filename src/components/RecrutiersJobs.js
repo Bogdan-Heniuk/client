@@ -2,6 +2,7 @@ import styles from "../styles/recrutiersJobList.module.css";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import DataService from "../ds";
+import { toast } from "react-toastify";
 
 function RecrutiersJobList() {
   const [vacancies, setVacancies] = useState([]);
@@ -11,7 +12,9 @@ function RecrutiersJobList() {
       const { data } = await DataService.vacancy.getByUser();
       setVacancies(data);
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   }
 

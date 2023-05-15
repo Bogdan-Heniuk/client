@@ -13,7 +13,7 @@ import draftToHtml from 'draftjs-to-html';
 class RichEditorExample extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createWithContent(this.props.initialState) || EditorState.createEmpty() };
+    this.state = { editorState: this.props.initialState ? EditorState.createWithContent(this.props.initialState) : EditorState.createEmpty() };
 
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({ editorState });

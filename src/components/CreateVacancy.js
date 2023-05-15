@@ -6,6 +6,7 @@ import RichEditorExample from "./Editor";
 import { useRef } from "react";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import { toast } from "react-toastify";
 
 const initialInputValues = {
   name: "",
@@ -29,14 +30,9 @@ function CreateVacancy() {
       await DataService.vacancy.create({
         name: inputValues.name,
         shortDescription: inputValues.shortDescription,
-        detailedDescription: {
-          html: draftToHtml(
-            convertToRaw(ref?.current?.state.editorState.getCurrentContent())
-          ),
-          raw: convertToRaw(
-            ref?.current?.state.editorState.getCurrentContent()
-          ),
-        },
+        detailedDescription: draftToHtml(
+          convertToRaw(ref?.current?.state.editorState.getCurrentContent())
+        ),
         salaryRange: {
           min: inputValues.min ? +inputValues.min : null,
           max: inputValues.max ? +inputValues.max : null,
@@ -45,10 +41,19 @@ function CreateVacancy() {
         experience: +inputValues.experience,
       });
 
-      // setDefaultValues(initialInputValues);
-      // window.location.href = "/myVacancies";
+      setDefaultValues(initialInputValues);
+
+      toast.success("Вакансія створена!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
+      setTimeout(() => {
+        window.location.href = "/myVacancies";
+      }, 1000);
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
 

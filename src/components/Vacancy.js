@@ -9,6 +9,7 @@ import moment from "moment";
 import { createFormDataFromObject, getUser, uploadImages } from "../utils";
 import { useInput } from "../customHooks/useInput";
 import parse from "html-react-parser";
+import { toast } from "react-toastify";
 
 const initialInputValues = {
   coverLetter: "",
@@ -23,15 +24,23 @@ function Vacancy() {
   const { vacancyId } = useParams();
 
   async function getUserInfo() {
-    const { data: userInfo } = await DataService.user.getInfo(userData._id);
-    setCV(userInfo.cv);
+    try {
+      const { data: userInfo } = await DataService.user.getInfo(userData._id);
+      setCV(userInfo.cv);
+    } catch (e) {
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   }
   async function getVacancy() {
     try {
       const { data } = await DataService.vacancy.getById(vacancyId);
       setVacancy(data);
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
   async function apply() {
@@ -46,9 +55,16 @@ function Vacancy() {
       setCV("");
       setDefaultValues(initialInputValues);
 
+      toast.success("Резюме успішно надіслано!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
       getVacancy();
+
     } catch (e) {
-      alert(e?.response?.data?.message);
+      toast.error("Упс! Щось пішло не так...", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
 
