@@ -29,7 +29,7 @@ function JobBoard() {
       setVacancies(data);
     } catch (e) {
       toast.error("Упс! Щось пішло не так...", {
-        position: toast.POSITION.TOP_CENTER
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   }
@@ -82,19 +82,31 @@ function JobBoard() {
           <h1 className={styles.page_title}>Вакансії на proFound</h1>
           <h1 className={styles.vacancy_count}>{vacancies.length}</h1>
         </div>
-
         <div className={styles.page_content}>
           {vacancies.length ? (
             <div className={styles.vacancy_div}>
               {vacancies?.map((vacancy) => {
                 return (
-                  <div className={styles.vacancy} key={vacancy._id}>
+                  <div
+                    className={styles.vacancy}
+                    style={{
+                      opacity: vacancy?.isAlreadyApplied ? "0.55" : "",
+                    }}
+                    key={vacancy?._id}
+                  >
                     <div className={styles.salary_div}>
                       <Link
                         to={`/vacancy/${vacancy._id}`}
                         className={styles.link}
                       >
-                        <h3 className={styles.vacancy_title}>{vacancy.name}</h3>
+                        <h3
+                          className={styles.vacancy_title}
+                          style={{
+                            color: vacancy?.isAlreadyViewed ? "#8f00ff" : "",
+                          }}
+                        >
+                          {vacancy?.name}
+                        </h3>
                       </Link>
                       {vacancy.salaryRange.min && (
                         <div className={styles.salary}>
