@@ -22,6 +22,10 @@ function Vacancy() {
   const userData = getUser();
   const { vacancyId } = useParams();
 
+  async function getUserInfo() {
+    const { data: userInfo } = await DataService.user.getInfo(userData._id);
+    setCV(userInfo.cv);
+  }
   async function getVacancy() {
     try {
       const { data } = await DataService.vacancy.getById(vacancyId);
@@ -50,6 +54,7 @@ function Vacancy() {
 
   useEffect(() => {
     getVacancy();
+    getUserInfo();
     window.scrollTo(0, 0);
   }, [vacancyId]);
 
@@ -86,7 +91,8 @@ function Vacancy() {
               {vacancy.shortDescription}
             </div>
             <div className={styles.detailed_description}>
-              {vacancy?.detailedDescription && parse(vacancy?.detailedDescription)}
+              {vacancy?.detailedDescription &&
+                parse(vacancy?.detailedDescription)}
             </div>
           </div>
           <div className={styles.vacancy_info}>
@@ -117,7 +123,11 @@ function Vacancy() {
                 onChange={(e) => uploadImages(e.target.files, setCV)}
               />
             </div>
-            <span>{cv[0]?.name}</span>
+            {cv?.[0]?.name ? (
+              <span>{cv?.[0]?.name}</span>
+            ) : (
+              <a href={cv?.location}>{cv?.fileName}</a>
+            )}
           </div>
         )}
 
